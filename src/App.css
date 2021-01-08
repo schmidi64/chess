@@ -1,38 +1,54 @@
-.App {
+html, body, #root {
+  height: 100%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.FlexContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Legende {
+  width: 220px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.List {
+  font-size: 30px;
+}
+
+.Square {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100%;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.Heading {
+  font-size: 55px;
+  margin-top: 0; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.TableData {
+  border: 1px solid black;
+  width: 90px;
+  height: 90px;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.Table tr:nth-child(odd) td:nth-child(odd) { 
+  background: brown;
+}
+
+.Table tr:nth-child(even) td:nth-child(even) { 
+  background: brown; 
 }
