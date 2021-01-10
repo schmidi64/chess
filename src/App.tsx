@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
 import { startSquare } from './utilities/startSquare'
+import { calculateNextSteps } from './utilities/calculateNextSteps'
 import {  whiteRooks, whiteKnights, whiteBishops, whiteKing, whiteQueen, whitePawns,
           blackRooks, blackKnights, blackBishops, blackKing, blackQueen, blackPawns } from './icons' 
 
@@ -10,13 +11,17 @@ function App() {
   const [selecting, setSelecting] = useState(true)
   const [selectedFigure, setSelectedFigure] = useState<string>('')
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
+  const [possibleNextSteps, setPossibleNextSteps] = useState<number[][] | undefined>()
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting) {
       setSelectedFigure(field)
       setSelecting(false)
+      setPossibleNextSteps(calculateNextSteps(field, ri, fi))
       setPreviousValue([ri, fi])
     } else if (!selecting && previousValue !== undefined) {
+      setPreviousValue(undefined)
+      setPossibleNextSteps(undefined)
       setSquare((oldlist) => {
         oldlist[ri][fi] = selectedFigure
         oldlist[previousValue[0]][previousValue[1]] = '0'
@@ -44,7 +49,8 @@ function App() {
         <table className='Table'>
           {square.map((rows, ri) =>
             <tr>{rows.map((field, fi) => 
-              <td className='TableData' onClick={event => handelClick(field, ri, fi)}>
+              <td className='TableData' onClick={event => handelClick(field, ri, fi)} 
+                  style={possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? {background: 'blue'} : undefined}>
                 {
                   /14./.test(field) ? <img src={whiteRooks} width="80" height="80" /> : 
                   /12./.test(field) ? <img src={whiteKnights} width="80" height="80" /> : 
