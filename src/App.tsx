@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import './App.css'
 import { startSquare } from './utilities/startSquare'
-import whiteRooks from './icons/White-Rooks.png'
-import whiteKnights from './icons/White-Knights.png'
-import whiteBishops from './icons/White-Bishops.png'
-import whiteKing from './icons/White-King.png'
-import whiteQueen from './icons/White-Queen.png'
-import whitePawns from './icons/White-Pawns.png'
+import {  whiteRooks, whiteKnights, whiteBishops, whiteKing, whiteQueen, whitePawns,
+          blackRooks, blackKnights, blackBishops, blackKing, blackQueen, blackPawns } from './icons' 
 
 function App() {
 
@@ -56,6 +52,13 @@ function App() {
                   /16./.test(field) ? <img src={whiteKing} width="80" height="80" /> : 
                   /15./.test(field) ? <img src={whiteQueen} width="80" height="80" /> : 
                   /11./.test(field) ? <img src={whitePawns} width="80" height="80" /> : 
+
+                  /24./.test(field) ? <img src={blackRooks} width="80" height="80" /> : 
+                  /22./.test(field) ? <img src={blackKnights} width="80" height="80" /> : 
+                  /23./.test(field) ? <img src={blackBishops} width="80" height="80" /> : 
+                  /26./.test(field) ? <img src={blackKing} width="80" height="80" /> : 
+                  /25./.test(field) ? <img src={blackQueen} width="80" height="80" /> : 
+                  /21./.test(field) ? <img src={blackPawns} width="80" height="80" /> :
                   null
                 } 
               </td>)}
