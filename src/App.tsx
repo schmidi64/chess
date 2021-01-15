@@ -16,7 +16,7 @@ function App() {
     if (selecting) {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(calculateNextSteps(field, ri, fi))
+      setPossibleNextSteps(calculateNextSteps(square, field, ri, fi))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
