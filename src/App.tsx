@@ -13,7 +13,7 @@ function App() {
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][] | undefined>()
 
   const handelClick = (field: string, ri: number, fi: number) => {
-    if (selecting) {
+    if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
       setPossibleNextSteps(calculateNextSteps(square, field, ri, fi))
@@ -21,14 +21,14 @@ function App() {
     } else if (!selecting && selectedFigure === field) {
       resetStates()
       setSelecting(true)
-    } else if (!selecting && previousValue !== undefined && selectedFigure !== undefined)  {
+    } else if (!selecting && previousValue !== undefined && selectedFigure !== undefined) {
       resetStates()
-      setSelecting(true)  
+      setSelecting(true)
       setSquare((oldlist) => {
         oldlist[ri][fi] = selectedFigure
         oldlist[previousValue[0]][previousValue[1]] = '0'
         return oldlist
-      }) 
+      })
     }
   }
 
