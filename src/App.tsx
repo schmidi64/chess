@@ -8,6 +8,7 @@ function App() {
 
   const [square, setSquare] = useState(startSquare)
   const [selecting, setSelecting] = useState(true)
+  const [isBlackNext, setisBlackNext] = useState(false)
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][] | undefined>()
@@ -24,6 +25,7 @@ function App() {
     } else if (!selecting && previousValue !== undefined && selectedFigure !== undefined) {
       resetStates()
       setSelecting(true)
+      setisBlackNext(!isBlackNext)
       setSquare((oldlist) => {
         oldlist[ri][fi] = selectedFigure
         oldlist[previousValue[0]][previousValue[1]] = '0'
@@ -41,7 +43,7 @@ function App() {
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} selecting={selecting} handelClick={handelClick}/>
+      <ChessField square={square} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
     </div>
   );
 }

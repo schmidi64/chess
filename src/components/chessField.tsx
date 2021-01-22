@@ -4,6 +4,7 @@ import {  whiteRooks, whiteKnights, whiteBishops, whiteKing, whiteQueen, whitePa
     
 interface chessFieldProps {
     square: string[][],
+    isBlackNext: boolean,
     possibleNextSteps: number[][] | undefined,
     selectedFigure: string | undefined,
     selecting: boolean,
@@ -18,7 +19,10 @@ function ChessField(props: chessFieldProps)  {
         <table className='Table'>
             {props.square.map((rows, ri) =>
             <tr>{rows.map((field, fi) =>
-                <td className='TableData' onClick={event => (props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) || props.selecting === true || props.selectedFigure === field) ? props.handelClick(field, ri, fi) : undefined}
+                <td className='TableData' onClick={event =>     (props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi)  // Check if current field is one of the next possible steps
+                                                                || (props.selecting === true && (props.isBlackNext && /2../.test(field) || !props.isBlackNext && /1../.test(field))) // Check if player have to select a figur and check if black or white is next
+                                                                || props.selectedFigure === field) // Check if player want to unselect a figure
+                                                                ? props.handelClick(field, ri, fi) : undefined}
                     style={props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? { background: 'blue' } :
                     props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : undefined}>
                     {
