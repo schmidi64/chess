@@ -17,20 +17,61 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             new Array(checkIfPawnIsInital(ri, [ri - 2, fi]), checkIfFigureIsAhead([ri - 1, fi]), checkIfPawnCanBeat('black', [ri - 1, fi + 1]), checkIfPawnCanBeat('black', [ri - 1, fi - 1])) :
             undefined 
 
-    // const calculationForKnights = (field: string, ri: number, fi: number) =>
-    //     (/21./.test(field) && ri - 1 >= 0) ?
-    //         new Array(checkIfPawnIsInital(ri, [ri - 2, fi]), checkIfFigureIsAhead([ri - 1, fi]), checkIfPawnCanBeat('black', [ri - 1, fi + 1]), checkIfPawnCanBeat('black', [ri - 1, fi - 1])) :
-    //         undefined 
+    const calculationForBishops = (field: string, ri: number, fi: number) => {
+        let steps: number [][] = []
 
+        let newri = ri
+        let newfi = fi
+        while(newfi >= 0 && newri >= 0) {
+            if(newri !== ri && newfi !== fi) {
+                steps.push([newri, newfi])
+            }
 
+            newri--
+            newfi--
+        }
 
+        newri = ri
+        newfi = fi
+        while(newfi <= 7 && newri >= 0) {
+            if(newri !== ri && newfi !== fi) {
+                steps.push([newri, newfi])
+            }
 
+            newri--
+            newfi++
+        }
+
+        newri = ri
+        newfi = fi
+        while(newri <= 7 && newfi >= 0) {
+            if(newri !== ri && newfi !== fi) {
+                steps.push([newri, newfi])
+            }
+
+            newri++
+            newfi--
+        }
+
+        newri = ri
+        newfi = fi
+        while(newri <= 7 && newfi <= 7) {
+            if(newri !== ri && newfi !== fi) {
+                steps.push([newri, newfi])
+            }
+            
+            newri++
+            newfi++
+        }
+
+        return steps
+    }
 
 
     return (() => 
         /11./.test(field) ? calculationForWhitePawns(field, ri, fi) :
         /21./.test(field) ? calculationForBlackPawns(field, ri, fi) :
-        // /.1./.test(field) ? calculationForKnights(field, ri, fi) :
+        /.3./.test(field) ? calculationForBishops(field, ri, fi) :
         undefined
     )()
 
