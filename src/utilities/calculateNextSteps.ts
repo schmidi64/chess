@@ -18,53 +18,21 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             undefined 
 
     const calculationForBishops = (field: string, ri: number, fi: number) => {
-        let steps: number [][] = []
+        
+        const calculateLeftUperConer = (ri: number, fi: number) =>
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) >= 0 && (step[1] - i - 1) >= 0 ? [step[0] - i - 1, step[1] - i - 1] : [])
+        
+        const calculateRightUperConer = (ri: number, fi: number) =>
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) >= 0 && (step[1] - i - 1) <= 7 ? [step[0] - i - 1, step[1] + i + 1] : [])
 
-        let newri = ri
-        let newfi = fi
-        while(newfi >= 0 && newri >= 0) {
-            if(newri !== ri && newfi !== fi) {
-                steps.push([newri, newfi])
-            }
-
-            newri--
-            newfi--
-        }
-
-        newri = ri
-        newfi = fi
-        while(newfi <= 7 && newri >= 0) {
-            if(newri !== ri && newfi !== fi) {
-                steps.push([newri, newfi])
-            }
-
-            newri--
-            newfi++
-        }
-
-        newri = ri
-        newfi = fi
-        while(newri <= 7 && newfi >= 0) {
-            if(newri !== ri && newfi !== fi) {
-                steps.push([newri, newfi])
-            }
-
-            newri++
-            newfi--
-        }
-
-        newri = ri
-        newfi = fi
-        while(newri <= 7 && newfi <= 7) {
-            if(newri !== ri && newfi !== fi) {
-                steps.push([newri, newfi])
-            }
+        const calculateLeftLowerConer = (ri: number, fi: number) =>
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) <= 7 && (step[1] - i - 1) >= 0 ? [step[0] + i + 1, step[1] - i - 1] : [])
             
-            newri++
-            newfi++
-        }
-
-        return steps
+        const calculateLeftRightConer = (ri: number, fi: number) =>
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) <= 7 && (step[1] - i - 1) <= 7 ? [step[0] + i + 1, step[1] + i + 1] : [])
+            
+        
+        return [...calculateLeftUperConer(ri, fi), ...calculateRightUperConer(ri, fi), ...calculateLeftLowerConer(ri, fi), ...calculateLeftRightConer(ri,fi)].filter((step) => step[0] !== undefined && step[1] !== undefined)
     }
 
 
