@@ -1,5 +1,4 @@
-function calculateNextSteps(square: string[][], field: string, ri: number, fi: number): number[][] | undefined {
-
+function calculateNextSteps(square: string[][], field: string, ri: number, fi: number): number[][] | [] {
 
     // Anaylse next steps
     const checkIfPawnIsInital = (ri: number, nextStep: number[]) => ri === 1 && /11./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] - 1][nextStep[1]] === '0' ? nextStep : ri === 6 && /21./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] + 1][nextStep[1]] === '0' ? nextStep : []
@@ -10,12 +9,12 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
     const calculationForWhitePawns = (field: string, ri: number, fi: number) => 
         ri + 1 <= 7 ?
             new Array(checkIfPawnIsInital(ri, [ri + 2, fi]), checkIfFigureIsAhead([ri + 1, fi]), checkIfPawnCanBeat('white', [ri + 1, fi + 1]), checkIfPawnCanBeat('white', [ri + 1, fi - 1])) :
-            undefined
+            []
 
     const calculationForBlackPawns = (field: string, ri: number, fi: number) =>
         ri - 1 >= 0 ?
             new Array(checkIfPawnIsInital(ri, [ri - 2, fi]), checkIfFigureIsAhead([ri - 1, fi]), checkIfPawnCanBeat('black', [ri - 1, fi + 1]), checkIfPawnCanBeat('black', [ri - 1, fi - 1])) :
-            undefined 
+            [] 
 
     const calculationForBishops = (field: string, ri: number, fi: number) => {
         
@@ -23,24 +22,23 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) >= 0 && (step[1] - i - 1) >= 0 ? [step[0] - i - 1, step[1] - i - 1] : [])
         
         const calculateRightUperConer = (ri: number, fi: number) =>
-            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) >= 0 && (step[1] - i - 1) <= 7 ? [step[0] - i - 1, step[1] + i + 1] : [])
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) >= 0 && (step[1] + i + 1) <= 7 ? [step[0] - i - 1, step[1] + i + 1] : [])
 
         const calculateLeftLowerConer = (ri: number, fi: number) =>
-            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) <= 7 && (step[1] - i - 1) >= 0 ? [step[0] + i + 1, step[1] - i - 1] : [])
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] + i + 1) <= 7 && (step[1] - i - 1) >= 0 ? [step[0] + i + 1, step[1] - i - 1] : [])
             
         const calculateLeftRightConer = (ri: number, fi: number) =>
-            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] - i - 1) <= 7 && (step[1] - i - 1) <= 7 ? [step[0] + i + 1, step[1] + i + 1] : [])
+            Array.from({length: 8}, () => [ri, fi]).map((step, i) => (step[0] + i + 1) <= 7 && (step[1] + i + 1) <= 7 ? [step[0] + i + 1, step[1] + i + 1] : [])
             
-        
-        return [...calculateLeftUperConer(ri, fi), ...calculateRightUperConer(ri, fi), ...calculateLeftLowerConer(ri, fi), ...calculateLeftRightConer(ri,fi)].filter((step) => step[0] !== undefined && step[1] !== undefined)
+        return [...calculateLeftUperConer(ri, fi), ...calculateRightUperConer(ri, fi), ...calculateLeftLowerConer(ri, fi), ...calculateLeftRightConer(ri,fi)]
     }
 
 
     return (() => 
         /11./.test(field) ? calculationForWhitePawns(field, ri, fi) :
         /21./.test(field) ? calculationForBlackPawns(field, ri, fi) :
-        /.3./.test(field) ? calculationForBishops(field, ri, fi) :
-        undefined
+        /.3./.test(field) ? calculationForBishops(field, ri, fi)    :
+        []
     )()
 
 }

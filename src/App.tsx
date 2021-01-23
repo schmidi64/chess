@@ -11,13 +11,13 @@ function App() {
   const [isBlackNext, setisBlackNext] = useState(false)
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
-  const [possibleNextSteps, setPossibleNextSteps] = useState<number[][] | undefined>()
+  const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(calculateNextSteps(square, field, ri, fi))
+      setPossibleNextSteps(calculateNextSteps(square, field, ri, fi).filter((step) => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
