@@ -26,8 +26,8 @@ function ChessField(props: chessFieldProps)  {
                                                                 || (props.selecting === true && (props.isBlackNext && /2../.test(field) || !props.isBlackNext && /1../.test(field))) // Check if player have to select a figur and check if black or white is next
                                                                 || props.selectedFigure === field) // Check if player want to unselect a figure
                                                                 ? props.handelClick(field, ri, fi) : undefined}
-                    style={props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? { background: 'blue' } :
-                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : 
+                    style={props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? { background: 'blue' } : // possible next Steps
+                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : // selected figure
                     props.possibleNextEnemySteps?.some((possibleNextEnemyStep) => possibleNextEnemyStep[0] === ri && possibleNextEnemyStep[1] === fi) ? { background: 'red' } : undefined}>
                     {
                     // white

@@ -148,7 +148,6 @@ function calculateNextSteps(square: string[][], ri: number, fi: number): number[
         return checkNextSimpleStep(possibleSteps)
     }
 
-
     return (() =>
         /11./.test(field) ? calculationForWhitePawns(field, ri, fi) :
         /21./.test(field) ? calculationForBlackPawns(field, ri, fi) :
