@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Legende, ChessField } from './components'
 import { startSquare } from './utilities/startSquare'
 import { calculateNextSteps } from './utilities/calculateNextSteps'
+import { calculateNextEnemySteps } from './utilities/calculateNextEnemySteps'
+import { checkCeckmate } from './utilities/checkCheckmate'
 
 function App() {
 
@@ -12,12 +14,19 @@ function App() {
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
+  const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<number[][]>()
+  const [checkmate, setCheckmate] = useState<boolean>(false)
+
+  useEffect(() => {
+    setCheckmate(checkCeckmate(square, isBlackNext))
+  }, [isBlackNext])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(calculateNextSteps(square, field, ri, fi).filter((step) => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(calculateNextSteps(square, ri, fi).filter((step) => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextEnemySteps(calculateNextEnemySteps(square, ri, fi))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
@@ -37,13 +46,14 @@ function App() {
   const resetStates = () => {
     setPreviousValue(undefined)
     setPossibleNextSteps(undefined)
+    setPossibleNextEnemySteps(undefined)
     setSelectedFigure(undefined)
   }
 
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
+      <ChessField square={square} checkmate={checkmate} possibleNextEnemySteps={possibleNextEnemySteps} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
     </div>
   );
 }

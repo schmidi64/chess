@@ -1,11 +1,12 @@
-function calculateNextSteps(square: string[][], field: string, ri: number, fi: number): number[][] | [] {
+function calculateNextSteps(square: string[][], ri: number, fi: number): number[][] | [] {
+    const field = square[ri][fi]
 
     // Anaylse next steps
     const checkIfPawnIsInital = (ri: number, nextStep: number[]) => ri === 1 && /11./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] - 1][nextStep[1]] === '0' ? nextStep : ri === 6 && /21./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] + 1][nextStep[1]] === '0' ? nextStep : []
     const checkIfFigureIsAhead = (nextStep: number[]) => square[nextStep[0]][nextStep[1]] !== '0' ? true : false
     const checkIfFigureCanBeat = (field: string, nextStep: number[]) => /1../.test(field) && /2../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : /2../.test(field) && /1../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : []
     
-    const checkNextCompletStep = (nextStep: number[], figureInTheWay: boolean, field: string): [number[], boolean] => {
+    const checkNextCompletxStep = (nextStep: number[], figureInTheWay: boolean, field: string): [number[], boolean] => {
         if (!figureInTheWay && nextStep[0] >= 0 && nextStep[1] >= 0 && nextStep[1] <= 7 && nextStep[0] <= 7) {
             if (checkIfFigureIsAhead(nextStep)) {
                 figureInTheWay = true
@@ -49,7 +50,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] - i - 1, step[1] - i - 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -59,7 +60,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] - i - 1, step[1] + i + 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -69,7 +70,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] + i + 1, step[1] - i - 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -79,7 +80,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] + i + 1, step[1] + i + 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -94,7 +95,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0], step[1] + i + 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -104,7 +105,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0], step[1] - i - 1]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -114,7 +115,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] + i + 1, step[1]]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -124,7 +125,7 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] - i - 1, step[1]]
-                const result = checkNextCompletStep(nextStep, figureInTheWay, field)
+                const result = checkNextCompletxStep(nextStep, figureInTheWay, field)
                 figureInTheWay = result[1]
                 return result[0]
             })
@@ -137,14 +138,14 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
         const possibleSteps = [[ri - 1, fi - 2], [ri - 2, fi - 1], [ri - 2, fi + 1], [ri - 1, fi + 2], 
                                [ri + 1, fi + 2], [ri + 2, fi + 1], [ri + 2, fi - 1], [ri + 1, fi - 2]]
          
-        return (checkNextSimpleStep(possibleSteps))
+        return checkNextSimpleStep(possibleSteps)
     }
 
     const calculationForKing = (field: string, ri: number, fi: number) => {
         const possibleSteps = [ [ri, fi - 1], [ri - 1, fi - 1], [ri - 1, fi], [ri - 1, fi + 1], 
                                 [ri, fi + 1], [ri + 1, fi + 1], [ri + 1, fi], [ri + 1, fi - 1]]
 
-        return (checkNextSimpleStep(possibleSteps))
+        return checkNextSimpleStep(possibleSteps)
     }
 
 

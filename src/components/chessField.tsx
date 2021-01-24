@@ -6,6 +6,8 @@ interface chessFieldProps {
     square: string[][],
     isBlackNext: boolean,
     possibleNextSteps: number[][] | undefined,
+    possibleNextEnemySteps: number[][] | undefined,
+    checkmate: boolean,
     selectedFigure: string | undefined,
     selecting: boolean,
     handelClick: (field: string, ri: number, fi: number) => void
@@ -15,16 +17,18 @@ function ChessField(props: chessFieldProps)  {
 
     return (
         <div className='Square'>
-        <h1 className='Heading'>Chess</h1>
+        <h1 className='Heading'>{props.checkmate && props.isBlackNext ? 'White has won!' : props.checkmate && !props.isBlackNext ? 'Black has won!' : 'Chess'}</h1>
         <table className='Table'>
             {props.square.map((rows, ri) =>
             <tr>{rows.map((field, fi) =>
-                <td className='TableData' onClick={event =>     (props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi)  // Check if current field is one of the next possible steps
+                <td className='TableData' onClick={event =>     !props.checkmate &&
+                                                                (props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi)  // Check if current field is one of the next possible steps
                                                                 || (props.selecting === true && (props.isBlackNext && /2../.test(field) || !props.isBlackNext && /1../.test(field))) // Check if player have to select a figur and check if black or white is next
                                                                 || props.selectedFigure === field) // Check if player want to unselect a figure
                                                                 ? props.handelClick(field, ri, fi) : undefined}
                     style={props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? { background: 'blue' } :
-                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : undefined}>
+                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : 
+                    props.possibleNextEnemySteps?.some((possibleNextEnemyStep) => possibleNextEnemyStep[0] === ri && possibleNextEnemyStep[1] === fi) ? { background: 'red' } : undefined}>
                     {
                     // white
                     /14./.test(field) ? <img src={whiteRooks} width="80" height="80" /> : 
