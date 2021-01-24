@@ -74,12 +74,58 @@ function calculateNextSteps(square: string[][], field: string, ri: number, fi: n
         return [...calculateLeftUperConer(field, ri, fi), ...calculateRightUperConer(field, ri, fi), ...calculateLeftLowerConer(field, ri, fi), ...calculateLeftRightConer(field, ri, fi)]
     }
 
+    const calculationForStraight = (field: string, ri: number, fi: number) => {
+
+        const calculateHorizontallyLeft = (field: string, ri: number, fi: number) => {
+            let figureInTheWay = false
+            return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
+                const nextStep = [step[0], step[1] + i + 1]
+                const result = checkNextStep(nextStep, figureInTheWay, field)
+                figureInTheWay = result[1]
+                return result[0]
+            })
+        }
+
+        const calculateHorizontallyRight = (field: string, ri: number, fi: number) => {
+            let figureInTheWay = false
+            return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
+                const nextStep = [step[0], step[1] - i - 1]
+                const result = checkNextStep(nextStep, figureInTheWay, field)
+                figureInTheWay = result[1]
+                return result[0]
+            })
+        }
+
+        const calculateVerticallyLeft = (field: string, ri: number, fi: number) => {
+            let figureInTheWay = false
+            return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
+                const nextStep = [step[0] + i + 1, step[1]]
+                const result = checkNextStep(nextStep, figureInTheWay, field)
+                figureInTheWay = result[1]
+                return result[0]
+            })
+        }
+
+        const calculateVerticallyRight = (field: string, ri: number, fi: number) => {
+            let figureInTheWay = false
+            return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
+                const nextStep = [step[0] - i - 1, step[1]]
+                const result = checkNextStep(nextStep, figureInTheWay, field)
+                figureInTheWay = result[1]
+                return result[0]
+            })
+        }
+
+        return [...calculateHorizontallyLeft(field, ri, fi), ...calculateHorizontallyRight(field, ri, fi), ...calculateVerticallyLeft(field, ri, fi), ...calculateVerticallyRight(field, ri, fi)]
+    }
+
 
     return (() =>
         /11./.test(field) ? calculationForWhitePawns(field, ri, fi) :
         /21./.test(field) ? calculationForBlackPawns(field, ri, fi) :
         /.3./.test(field) ? calculationForDiagonally(field, ri, fi) :
-        /.5./.test(field) ? calculationForDiagonally(field, ri, fi) :
+        /.4./.test(field) ? calculationForStraight(field, ri, fi)   :
+        /.5./.test(field) ? [...calculationForDiagonally(field, ri, fi), ...calculationForStraight(field, ri, fi)] :
         []
     )()
 
