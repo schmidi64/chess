@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
 import './App.css'
+import React, { useEffect, useState } from 'react'
 import { Legende, ChessField } from './components'
 import { startSquare } from './utilities/startSquare'
 import { calculateNextSteps } from './utilities/calculateNextSteps'
 import { calculateNextEnemySteps } from './utilities/calculateNextEnemySteps'
-import { checkCeckmate } from './utilities/checkCheckmate'
+import { checkCheck } from './utilities/checkCheck'
+import { checkCheckmate } from './utilities/checkCheckmate'
 
 function App() {
 
@@ -14,12 +15,19 @@ function App() {
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
+  const [myPossibleSteps, setMyPossibleSteps] = useState<number[][]>([])
   const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<number[][]>()
+  const [possibleEnemyKingSteps, setPossibleEnemyKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
+  const [check, setCheck] = useState<boolean>(false)
 
   useEffect(() => {
-    setCheckmate(checkCeckmate(square, isBlackNext))
+    setCheck(checkCheck(square, isBlackNext, setMyPossibleSteps, setPossibleEnemyKingSteps))
   }, [isBlackNext])
+
+  useEffect(() => {
+    setCheckmate(checkCheckmate(myPossibleSteps, possibleEnemyKingSteps))
+  }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
@@ -53,7 +61,7 @@ function App() {
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} checkmate={checkmate} possibleNextEnemySteps={possibleNextEnemySteps} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
+      <ChessField square={square} check={check} checkmate={checkmate} possibleNextEnemySteps={possibleNextEnemySteps} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
     </div>
   );
 }

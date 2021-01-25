@@ -162,3 +162,23 @@ function calculateNextSteps(square: string[][], ri: number, fi: number): number[
 }
 
 export { calculateNextSteps }
+
+
+
+
+// const calculateLeftUperConer = (field: string, ri: number, fi: number) => {
+//     return Array.from({ length: 8 }, () => ({
+//         figureInTheWay: false,
+//         field: [ri, fi],
+//         results: []
+//     })).reduce((prev, curr, i) => {
+//         const step = curr.field
+//         const nextStep = [step[0] - i - 1, step[1] - i - 1]
+//         const result = checkNextCompletxStep(nextStep, prev.figureInTheWay, field)
+//         return {
+//             figureInTheWay: result[1],
+//             field: curr.field,
+//             results: [...curr.results, result[1]]
+//         }
+//     }).results
+// }

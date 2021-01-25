@@ -8,6 +8,7 @@ interface chessFieldProps {
     possibleNextSteps: number[][] | undefined,
     possibleNextEnemySteps: number[][] | undefined,
     checkmate: boolean,
+    check: boolean,
     selectedFigure: string | undefined,
     selecting: boolean,
     handelClick: (field: string, ri: number, fi: number) => void
@@ -17,7 +18,7 @@ function ChessField(props: chessFieldProps)  {
 
     return (
         <div className='Square'>
-        <h1 className='Heading'>{props.checkmate && props.isBlackNext ? 'White has won!' : props.checkmate && !props.isBlackNext ? 'Black has won!' : 'Chess'}</h1>
+        <h1 className='Heading'>{!props.checkmate && props.check && props.isBlackNext ? 'Black is in check!' : !props.checkmate && props.check && !props.isBlackNext ? 'White is in check!' : props.checkmate && props.isBlackNext ? 'White has won!' : props.checkmate && !props.isBlackNext ? 'Black has won!' : 'Chess'}</h1>
         <table className='Table'>
             {props.square.map((rows, ri) =>
             <tr>{rows.map((field, fi) =>
@@ -43,8 +44,7 @@ function ChessField(props: chessFieldProps)  {
                     /23./.test(field) ? <img src={blackBishops} width="80" height="80" /> : 
                     /26./.test(field) ? <img src={blackKing} width="80" height="80" /> : 
                     /25./.test(field) ? <img src={blackQueen} width="80" height="80" /> : 
-                    /21./.test(field) ? <img src={blackPawns} width="80" height="80" /> :
-                    null
+                    /21./.test(field) && <img src={blackPawns} width="80" height="80" /> 
                     } 
                     </td>)}
                 </tr>)}
