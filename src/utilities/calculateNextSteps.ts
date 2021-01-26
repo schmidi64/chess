@@ -1,4 +1,4 @@
-function calculateNextSteps(square: string[][], ri: number, fi: number): number[][] | [] {
+function calculateNextSteps(square: string[][], ri: number, fi: number, myPossibleSteps: number[][]): number[][] | [] {
     const field = square[ri][fi]
 
     // Anaylse next steps
@@ -145,7 +145,9 @@ function calculateNextSteps(square: string[][], ri: number, fi: number): number[
         const possibleSteps = [ [ri, fi - 1], [ri - 1, fi - 1], [ri - 1, fi], [ri - 1, fi + 1], 
                                 [ri, fi + 1], [ri + 1, fi + 1], [ri + 1, fi], [ri + 1, fi - 1]]
 
-        return checkNextSimpleStep(possibleSteps)
+        const checkedPossibleSteps = checkNextSimpleStep(possibleSteps)
+
+        return checkedPossibleSteps?.filter(kingStep => !myPossibleSteps.find(myStep => kingStep[0] === myStep[0] && kingStep[1] === myStep[1]))
     }
 
     return (() =>
