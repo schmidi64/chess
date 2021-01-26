@@ -33,8 +33,9 @@ function App() {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
+      setCheck(false)
       setPossibleNextSteps(calculateNextSteps(square, ri, fi).filter((step) => step[0] !== undefined && step[1] !== undefined))
-      setPossibleNextEnemySteps(calculateNextEnemySteps(square, ri, fi))
+      setPossibleNextEnemySteps(calculateNextEnemySteps(square, isBlackNext))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
