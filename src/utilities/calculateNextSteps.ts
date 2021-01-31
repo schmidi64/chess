@@ -1,4 +1,4 @@
-function calculateNextSteps(square: string[][], ri: number, fi: number, myPossibleSteps: number[][]): number[][] | [] {
+function calculateNextSteps(square: string[][], ri: number, fi: number, myPossibleSteps: number[][], calculationForEnemy: boolean): number[][] | [] {
     const field = square[ri][fi]
 
     // Anaylse next steps
@@ -36,11 +36,13 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, myPossib
     // Calculate next steps
     const calculationForWhitePawns = (field: string, ri: number, fi: number) =>
         ri + 1 <= 7 ?
+            calculationForEnemy ? new Array(checkIfFigureIsAhead([ri + 1, fi + 1]) ? [] : [ri + 1, fi + 1], checkIfFigureIsAhead([ri + 1, fi - 1]) ? [] : [ri + 1, fi - 1]) :
             new Array(checkIfPawnIsInital(ri, [ri + 2, fi]), checkIfFigureIsAhead([ri + 1, fi]) ? [] : [ri + 1, fi], checkIfFigureCanBeat(field, [ri + 1, fi + 1]), checkIfFigureCanBeat(field, [ri + 1, fi - 1])) :
             []
 
     const calculationForBlackPawns = (field: string, ri: number, fi: number) =>
         ri - 1 >= 0 ?
+            calculationForEnemy ? new Array(checkIfFigureIsAhead([ri - 1, fi + 1]) ? [] : [ri - 1, fi + 1], checkIfFigureIsAhead([ri - 1, fi - 1]) ? [] : [ri - 1, fi - 1]) :
             new Array(checkIfPawnIsInital(ri, [ri - 2, fi]), checkIfFigureIsAhead([ri - 1, fi]) ? [] : [ri - 1, fi], checkIfFigureCanBeat(field, [ri - 1, fi + 1]), checkIfFigureCanBeat(field, [ri - 1, fi - 1])) :
             []
 

@@ -4,7 +4,7 @@ function calculateNextEnemySteps(square: string[][], isBlackNext: boolean): numb
     
     return (square.flatMap((row, ir) => row.flatMap((chell, ic) => {
         if(!isBlackNext && /2../.test(chell) || isBlackNext && /1../.test(chell)) {
-            return calculateNextSteps(square, ir, ic, [])
+            return calculateNextSteps(square, ir, ic, [], true)
         } else {
             return []
         }
