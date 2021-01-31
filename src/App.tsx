@@ -26,7 +26,7 @@ function App() {
   }, [isBlackNext])
 
   useEffect(() => {
-    setCheckmate(checkCheckmate(myPossibleSteps, possibleEnemyKingSteps))
+    setCheckmate(checkCheckmate(myPossibleSteps, possibleEnemyKingSteps, check))
   }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
