@@ -8,7 +8,7 @@ const checkCheck = (square: string[][], isBlackNext: boolean, setPossibleNextEne
     const compairMyStepsToEnemyKingPosition = () => getPossibleNextEnemyStepsFlat(possibleNextEnemySteps).map((step) => step[0] === positionEnemyKing[0] && step[1] === positionEnemyKing[1] ? true : false).filter((e) => e !== false)[0]
 
     const positionEnemyKing = square.flatMap((row, ir) => row.flatMap((chell, ic) => isBlackNext && /26./.test(square[ir][ic]) ? [ir, ic] : !isBlackNext && /16./.test(square[ir][ic]) ? [ir, ic] : []))
-    const possibleKingSteps = calculateNextSteps(square, positionEnemyKing[0], positionEnemyKing[1], [], true).filter((step) => step[0] !== undefined && step[1] !== undefined)
+    const possibleKingSteps = calculateNextSteps(square, positionEnemyKing[0], positionEnemyKing[1], [], false).filter((step) => step[0] !== undefined && step[1] !== undefined)
     const possibleNextEnemySteps: calculateNextEnemyStepsReturn[] = calculateNextEnemySteps(makeEnemyKingInvisibal(), isBlackNext)
     const possibleNextStepsAllOwnFigures: calculateNextEnemyStepsReturn[] = calculateNextEnemySteps(square, !isBlackNext)
 
