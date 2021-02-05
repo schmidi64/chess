@@ -16,26 +16,24 @@ function App() {
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
-  const [myPossibleSteps, setMyPossibleSteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
-  const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
-  const [possibleEnemyKingSteps, setPossibleEnemyKingSteps] = useState<number[][]>()
+  const [possibleNextEnemySteps, setpossibleNextEnemySteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
+  const [possibleKingSteps, setpossibleKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
 
   useEffect(() => {
-    setCheck(checkCheck(square, isBlackNext, setMyPossibleSteps, setPossibleEnemyKingSteps))
+    setCheck(checkCheck(square, isBlackNext, setpossibleNextEnemySteps, setpossibleKingSteps))
   }, [isBlackNext])
 
   useEffect(() => {
-    setCheckmate(checkCheckmate(myPossibleSteps, possibleEnemyKingSteps, check))
+    setCheckmate(checkCheckmate(possibleNextEnemySteps, possibleKingSteps, check))
   }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(calculateNextSteps(square, ri, fi, myPossibleSteps, false).filter((step) => step[0] !== undefined && step[1] !== undefined))
-      setPossibleNextEnemySteps(calculateNextEnemySteps(square, isBlackNext))
+      setPossibleNextSteps(calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter((step) => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
@@ -55,7 +53,6 @@ function App() {
   const resetStates = () => {
     setPreviousValue(undefined)
     setPossibleNextSteps(undefined)
-    setPossibleNextEnemySteps([{figure: "", possibleSteps: []}])
     setSelectedFigure(undefined)
   }
 
