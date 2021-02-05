@@ -1,7 +1,9 @@
 import { calculateNextEnemyStepsReturn } from './interfaces'
+import { getPossibleNextEnemyStepsFlat } from './getPossibleNextEnemyStepsFlat'
 
 function calculateNextSteps(square: string[][], ri: number, fi: number, possibleNextEnemySteps: calculateNextEnemyStepsReturn[], calculationForEnemy: boolean): number[][] | [] {
     const field = square[ri][fi]
+    const possibleNextEnemyStepsFlat = getPossibleNextEnemyStepsFlat(possibleNextEnemySteps)
 
     // Anaylse next steps
     const checkIfPawnIsInital = (ri: number, nextStep: number[]) => ri === 1 && /11./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] - 1][nextStep[1]] === '0' ? nextStep : ri === 6 && /21./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] + 1][nextStep[1]] === '0' ? nextStep : []
@@ -151,8 +153,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
 
         const checkedPossibleSteps = checkNextSimpleStep(possibleSteps)
 
-        // return checkedPossibleSteps?.filter(kingStep => !possibleNextEnemySteps.find(myStep => kingStep[0] === myStep[0] && kingStep[1] === myStep[1]))
-        return possibleSteps
+        return checkedPossibleSteps?.filter(kingStep => !possibleNextEnemyStepsFlat.find(step => kingStep[0] === step[0] && kingStep[1] === step[1]))
     }
 
     return (() =>
@@ -169,9 +170,6 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
 }
 
 export { calculateNextSteps }
-
-
-
 
 // const calculateLeftUperConer = (field: string, ri: number, fi: number) => {
 //     return Array.from({ length: 8 }, () => ({
