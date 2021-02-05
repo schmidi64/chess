@@ -16,19 +16,19 @@ function App() {
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
-  const [possibleNextEnemySteps, setpossibleNextEnemySteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
+  const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
+  const [possibleNextStepsAllOwnFigures, setpossibleNextStepsAllOwnFigures] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
   const [possibleKingSteps, setpossibleKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
   const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
 
   useEffect(() => {
-    setCheck(checkCheck(square, isBlackNext, setpossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck))
+    setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures))
   }, [isBlackNext])
 
   useEffect(() => {
-    console.log(figureWichCauseCheck)
-    setCheckmate(checkCheckmate(possibleNextEnemySteps, possibleKingSteps, check))
+    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures))
   }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
