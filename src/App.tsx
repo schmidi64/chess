@@ -20,12 +20,14 @@ function App() {
   const [possibleKingSteps, setpossibleKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
+  const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
 
   useEffect(() => {
-    setCheck(checkCheck(square, isBlackNext, setpossibleNextEnemySteps, setpossibleKingSteps))
+    setCheck(checkCheck(square, isBlackNext, setpossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck))
   }, [isBlackNext])
 
   useEffect(() => {
+    console.log(figureWichCauseCheck)
     setCheckmate(checkCheckmate(possibleNextEnemySteps, possibleKingSteps, check))
   }, [check])
 
@@ -54,6 +56,7 @@ function App() {
     setPreviousValue(undefined)
     setPossibleNextSteps(undefined)
     setSelectedFigure(undefined)
+    setFigureWichCauseCheck(undefined)
   }
 
   return (

@@ -8,7 +8,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
     // Anaylse next steps
     const checkIfPawnIsInital = (ri: number, nextStep: number[]) => ri === 1 && /11./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] - 1][nextStep[1]] === '0' ? nextStep : ri === 6 && /21./.test(field) && square[nextStep[0]][nextStep[1]] === '0' && square[nextStep[0] + 1][nextStep[1]] === '0' ? nextStep : []
     const checkIfFigureIsAhead = (nextStep: number[]) => square[nextStep[0]][nextStep[1]] !== '0' ? true : false
-    const checkIfFigureCanBeat = (field: string, nextStep: number[]) => /1../.test(field) && /2../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : /2../.test(field) && /1../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : []
+    const checkIfFigureCanBeat = (field: string, nextStep: number[]) => calculationForEnemy ? nextStep : /1../.test(field) && /2../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : /2../.test(field) && /1../.test(square[nextStep[0]][nextStep[1]]) ? nextStep : []
     
     const checkNextCompletxStep = (nextStep: number[], figureInTheWay: boolean, field: string): [number[], boolean] => {
         if (!figureInTheWay && nextStep[0] >= 0 && nextStep[1] >= 0 && nextStep[1] <= 7 && nextStep[0] <= 7) {

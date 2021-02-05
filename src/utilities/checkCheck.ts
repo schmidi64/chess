@@ -3,7 +3,7 @@ import { calculateNextEnemySteps } from './calculateNextEnemySteps'
 import { calculateNextEnemyStepsReturn } from './interfaces'
 import { getPossibleNextEnemyStepsFlat } from './getPossibleNextEnemyStepsFlat'
 
-const checkCheck = (square: string[][], isBlackNext: boolean, setpossibleNextEnemySteps: React.Dispatch<React.SetStateAction<calculateNextEnemyStepsReturn[]>>, setpossibleKingSteps: React.Dispatch<React.SetStateAction<number[][] | undefined>>): boolean => {
+const checkCheck = (square: string[][], isBlackNext: boolean, setpossibleNextEnemySteps: React.Dispatch<React.SetStateAction<calculateNextEnemyStepsReturn[]>>, setpossibleKingSteps: React.Dispatch<React.SetStateAction<number[][] | undefined>>, setFigureWichCauseCheck: React.Dispatch<React.SetStateAction<string | undefined>>): boolean => {
     const makeEnemyKingInvisibal = () => square.map((row, ir) => row.map((chell, ic) => ir === positionEnemyKing[0] && ic === positionEnemyKing[1] ? '0' : chell))
     const compairMyStepsToEnemyKingPosition = () => getPossibleNextEnemyStepsFlat(possibleNextEnemySteps).map((step) => step[0] === positionEnemyKing[0] && step[1] === positionEnemyKing[1] ? true : false).filter((e) => e !== false)[0]
 
@@ -15,8 +15,12 @@ const checkCheck = (square: string[][], isBlackNext: boolean, setpossibleNextEne
     setpossibleNextEnemySteps(possibleNextEnemySteps)
 
     if(compairMyStepsToEnemyKingPosition()) {
+        console.log(possibleNextEnemySteps)
+        console.log(makeEnemyKingInvisibal())
+        setFigureWichCauseCheck((possibleNextEnemySteps.filter(obj => obj.possibleSteps.find((step: number[]) => step[0] === positionEnemyKing[0] && step[1] === positionEnemyKing[1] ? true : false)))[0].figure)
         return true
-    }   
+    } 
+
     return false
 }
 
