@@ -6,6 +6,7 @@ import { calculateNextSteps } from './utilities/calculateNextSteps'
 import { calculateNextEnemySteps } from './utilities/calculateNextEnemySteps'
 import { checkCheck } from './utilities/checkCheck'
 import { checkCheckmate } from './utilities/checkCheckmate'
+import { calculateNextEnemyStepsReturn } from './utilities/interfaces'
 
 function App() {
 
@@ -15,8 +16,8 @@ function App() {
   const [selectedFigure, setSelectedFigure] = useState<string | undefined>()
   const [previousValue, setPreviousValue] = useState<number[] | undefined>()
   const [possibleNextSteps, setPossibleNextSteps] = useState<number[][]>()
-  const [myPossibleSteps, setMyPossibleSteps] = useState<number[][]>([])
-  const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<number[][]>()
+  const [myPossibleSteps, setMyPossibleSteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
+  const [possibleNextEnemySteps, setPossibleNextEnemySteps] = useState<calculateNextEnemyStepsReturn[]>([{figure: "", possibleSteps: []}])
   const [possibleEnemyKingSteps, setPossibleEnemyKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
@@ -54,14 +55,14 @@ function App() {
   const resetStates = () => {
     setPreviousValue(undefined)
     setPossibleNextSteps(undefined)
-    setPossibleNextEnemySteps(undefined)
+    setPossibleNextEnemySteps([{figure: "", possibleSteps: []}])
     setSelectedFigure(undefined)
   }
 
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} check={check} checkmate={checkmate} possibleNextEnemySteps={possibleNextEnemySteps} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
+      <ChessField square={square} check={check} checkmate={checkmate} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
     </div>
   );
 }

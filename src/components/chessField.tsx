@@ -6,7 +6,6 @@ interface chessFieldProps {
     square: string[][],
     isBlackNext: boolean,
     possibleNextSteps: number[][] | undefined,
-    possibleNextEnemySteps: number[][] | undefined,
     checkmate: boolean,
     check: boolean,
     selectedFigure: string | undefined,
@@ -28,8 +27,8 @@ function ChessField(props: chessFieldProps)  {
                                                                 || props.selectedFigure === field) // Check if player want to unselect a figure
                                                                 ? props.handelClick(field, ri, fi) : undefined}
                     style={props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi) ? { background: 'blue' } : // possible next Steps
-                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : // selected figure
-                    props.possibleNextEnemySteps?.some((possibleNextEnemyStep) => possibleNextEnemyStep[0] === ri && possibleNextEnemyStep[1] === fi) ? { background: 'red' } : undefined}>
+                    props.selectedFigure === field && field !== '0' ? { background: 'yellow' } : undefined // selected figure
+                    }> 
                     {
                     // white
                     /14./.test(field) ? <img src={whiteRooks} width="80" height="80" /> : 
