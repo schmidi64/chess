@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { Legende, ChessField } from './components'
 import { startSquare } from './utilities/startSquare'
 import { calculateNextSteps } from './utilities/calculateNextSteps'
-import { calculateNextEnemySteps } from './utilities/calculateNextEnemySteps'
 import { checkCheck } from './utilities/checkCheck'
 import { checkCheckmate } from './utilities/checkCheckmate'
 import { calculateNextEnemyStepsReturn } from './utilities/interfaces'
@@ -22,26 +21,28 @@ function App() {
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
   const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
-
+  const [figuresWichCanBeatCauseOfCheck, setFiguresWichCanBeatCauseOfCheck] = useState<string[]>([])
+  
   useEffect(() => {
     setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures))
   }, [isBlackNext])
 
   useEffect(() => {
-    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures))
+    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures, setFiguresWichCanBeatCauseOfCheck))
   }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter((step) => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter((step) => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
       setSelecting(true)
     } else if (!selecting && previousValue !== undefined && selectedFigure !== undefined) {
       resetStates()
+      setFigureWichCauseCheck(undefined)
       setSelecting(true)
       setisBlackNext(!isBlackNext)
       setSquare((oldlist) => {
@@ -56,13 +57,16 @@ function App() {
     setPreviousValue(undefined)
     setPossibleNextSteps(undefined)
     setSelectedFigure(undefined)
-    setFigureWichCauseCheck(undefined)
   }
+
+
+  // Voller Leerlauf
+  const getPossitionFigureWichCauseCheck = () => square.map((row,ri) => row.map((cell, ci) => cell === figureWichCauseCheck ? [ri, ci] : [])).flatMap(step => step).filter((step) => step[0] !== undefined && step[1] !== undefined)
 
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} check={check} checkmate={checkmate} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} handelClick={handelClick}/>
+      <ChessField square={square} check={check} checkmate={checkmate} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} figuresWichCanBeatCauseOfCheck={figuresWichCanBeatCauseOfCheck} handelClick={handelClick}/>
     </div>
   );
 }
