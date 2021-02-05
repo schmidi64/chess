@@ -6,9 +6,9 @@ const checkCheckmate = (square: string[][], possibleNextEnemySteps: calculateNex
     const possibleNextStepsAllOwnFiguresFlat = getPossibleNextEnemyStepsFlat(possibleNextStepsAllOwnFigures)
 
     const checkIfEnemyKingCanMove = () => possibleKingSteps?.filter(kingStep => !possibleNextEnemyStepsFlat.find(step => kingStep[0] === step[0] && kingStep[1] === step[1])).length === 0
-    const checkIfFigureWichCauseCheckCanBeBeaten = () => (possibleNextStepsAllOwnFiguresFlat.find(possibleNextStep => square[possibleNextStep[0]][possibleNextStep[1]] === figureWichCauseCheck)?.length === 0)
-    
-    if(check && checkIfEnemyKingCanMove() && checkIfFigureWichCauseCheckCanBeBeaten()) {
+    const checkIfFigureWichCauseCheckCanBeBeaten = () => (possibleNextStepsAllOwnFiguresFlat.find(possibleNextStep => square[possibleNextStep[0]][possibleNextStep[1]] === figureWichCauseCheck) !== undefined)
+
+    if(check && checkIfEnemyKingCanMove() && !checkIfFigureWichCauseCheckCanBeBeaten()) {
         return true
     }   
     return false
