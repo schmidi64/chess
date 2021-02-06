@@ -6,6 +6,7 @@ import { calculateNextSteps } from './utilities/calculateNextSteps'
 import { checkCheck } from './utilities/checkCheck'
 import { checkCheckmate } from './utilities/checkCheckmate'
 import { calculateNextEnemyStepsReturn } from './utilities/interfaces'
+import { reducePossibleStepsWhenCheck } from './utilities/reducePossibleStepsWhenCheck'
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
   const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
-  const [figuresWichCanBeatCauseOfCheck, setFiguresWichCanBeatCauseOfCheck] = useState<string[]>()
+  const [figuresWichCanMoveWhenCheck, setFiguresWichCanMoveWhenCheck] = useState<string[]>()
   const [pathWichCauseCheck, setPathWichCauseCheck] = useState<number[][]>()
   
   useEffect(() => {
@@ -29,14 +30,14 @@ function App() {
   }, [isBlackNext])
 
   useEffect(() => {
-    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures, setFiguresWichCanBeatCauseOfCheck))
+    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures, pathWichCauseCheck, setFiguresWichCanMoveWhenCheck))
   }, [check])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(check && !/.61/.test(field) ? reducePossibleStepsWhenCheck(pathWichCauseCheck, (calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))) : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
@@ -60,14 +61,10 @@ function App() {
     setSelectedFigure(undefined)
   }
 
-
-  // Voller Leerlauf
-  const getPossitionFigureWichCauseCheck = () => square.map((row,ri) => row.map((cell, ci) => cell === figureWichCauseCheck ? [ri, ci] : [])).flatMap(step => step).filter((step) => step[0] !== undefined && step[1] !== undefined)
-
   return (
     <div className='FlexContainer'>
       <Legende />
-      <ChessField square={square} check={check} checkmate={checkmate} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} figuresWichCanBeatCauseOfCheck={figuresWichCanBeatCauseOfCheck} handelClick={handelClick}/>
+      <ChessField square={square} check={check} checkmate={checkmate} possibleNextSteps={possibleNextSteps} selectedFigure={selectedFigure} isBlackNext={isBlackNext} selecting={selecting} figuresWichCanMoveWhenCheck={figuresWichCanMoveWhenCheck} handelClick={handelClick}/>
     </div>
   );
 }
