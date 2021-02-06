@@ -23,7 +23,7 @@ const checkCheck = (square: string[][], isBlackNext: boolean, setPossibleNextEne
 
         setFigureWichCauseCheck(square[positionFigureWichCauseCheck[0]][positionFigureWichCauseCheck[1]])
         setPathWichCauseCheck(getPathWichCauseCheck(square, positionEnemyKing, positionFigureWichCauseCheck))
-
+        
         return true
     } 
     return false

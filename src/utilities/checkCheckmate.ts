@@ -9,7 +9,7 @@ const checkCheckmate = (square: string[][], possibleNextEnemySteps: calculateNex
     
     setFiguresWichCanMoveWhenCheck(figuresWichCanMoveWhenCheck)
 
-    if(check && checkIfKingCanMove() && figuresWichCanMoveWhenCheck.length === 0) {
+    if(check && checkIfKingCanMove() && figuresWichCanMoveWhenCheck.length === 1) {
         return true
     }   
     return false
