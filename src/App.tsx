@@ -21,10 +21,11 @@ function App() {
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
   const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
-  const [figuresWichCanBeatCauseOfCheck, setFiguresWichCanBeatCauseOfCheck] = useState<string[]>([])
+  const [figuresWichCanBeatCauseOfCheck, setFiguresWichCanBeatCauseOfCheck] = useState<string[]>()
+  const [pathWichCauseCheck, setPathWichCauseCheck] = useState<number[][]>()
   
   useEffect(() => {
-    setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures))
+    setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures, setPathWichCauseCheck))
   }, [isBlackNext])
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function App() {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter((step) => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter(step => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()

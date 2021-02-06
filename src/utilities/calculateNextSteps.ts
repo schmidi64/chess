@@ -61,7 +61,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
+   
         const calculateRightUperConer = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
@@ -71,7 +71,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
+    
         const calculateLeftLowerConer = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
@@ -81,8 +81,8 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
-        const calculateLeftRightConer = (field: string, ri: number, fi: number) => {
+    
+        const calculateRightLowerConer = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
                 const nextStep = [step[0] + i + 1, step[1] + i + 1]
@@ -92,7 +92,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
             })
         }
 
-        return [...calculateLeftUperConer(field, ri, fi), ...calculateRightUperConer(field, ri, fi), ...calculateLeftLowerConer(field, ri, fi), ...calculateLeftRightConer(field, ri, fi)]
+        return [...calculateLeftUperConer(field, ri, fi), ...calculateRightUperConer(field, ri, fi), ...calculateLeftLowerConer(field, ri, fi), ...calculateRightLowerConer(field, ri, fi)]
     }
 
     const calculationForStraight = (field: string, ri: number, fi: number) => {
@@ -106,7 +106,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
+    
         const calculateHorizontallyRight = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
@@ -116,7 +116,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
+    
         const calculateVerticallyLeft = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
@@ -126,7 +126,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
                 return result[0]
             })
         }
-
+    
         const calculateVerticallyRight = (field: string, ri: number, fi: number) => {
             let figureInTheWay = false
             return Array.from({ length: 8 }, () => [ri, fi]).map((step, i) => {
@@ -164,26 +164,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
         /.4./.test(field) ? calculationForStraight(field, ri, fi)   :
         /.5./.test(field) ? [...calculationForDiagonally(field, ri, fi), ...calculationForStraight(field, ri, fi)] :
         /.6./.test(field) ? calculationForKing(field, ri, fi) :
-        []
-    )()
-
+        [])()
 }
 
 export { calculateNextSteps }
-
-// const calculateLeftUperConer = (field: string, ri: number, fi: number) => {
-//     return Array.from({ length: 8 }, () => ({
-//         figureInTheWay: false,
-//         field: [ri, fi],
-//         results: []
-//     })).reduce((prev, curr, i) => {
-//         const step = curr.field
-//         const nextStep = [step[0] - i - 1, step[1] - i - 1]
-//         const result = checkNextCompletxStep(nextStep, prev.figureInTheWay, field)
-//         return {
-//             figureInTheWay: result[1],
-//             field: curr.field,
-//             results: [...curr.results, result[1]]
-//         }
-//     }).results
-// }
