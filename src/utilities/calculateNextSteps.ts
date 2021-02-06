@@ -1,7 +1,7 @@
 import { calculateNextEnemyStepsReturn } from './interfaces'
 import { getPossibleNextEnemyStepsFlat } from './getPossibleNextEnemyStepsFlat'
 
-function calculateNextSteps(square: string[][], ri: number, fi: number, possibleNextEnemySteps: calculateNextEnemyStepsReturn[], calculationForEnemy: boolean): number[][] | [] {
+function calculateNextSteps(square: string[][], ri: number, fi: number, possibleNextEnemySteps: calculateNextEnemyStepsReturn[], calculationForEnemy: boolean): number[][][] {
     const field = square[ri][fi]
     const possibleNextEnemyStepsFlat = getPossibleNextEnemyStepsFlat(possibleNextEnemySteps)
 
@@ -92,7 +92,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
             })
         }
 
-        return [...calculateLeftUperConer(field, ri, fi), ...calculateRightUperConer(field, ri, fi), ...calculateLeftLowerConer(field, ri, fi), ...calculateRightLowerConer(field, ri, fi)]
+        return [calculateLeftUperConer(field, ri, fi), calculateRightUperConer(field, ri, fi), calculateLeftLowerConer(field, ri, fi), calculateRightLowerConer(field, ri, fi)]
     }
 
     const calculationForStraight = (field: string, ri: number, fi: number) => {
@@ -137,7 +137,7 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
             })
         }
 
-        return [...calculateHorizontallyLeft(field, ri, fi), ...calculateHorizontallyRight(field, ri, fi), ...calculateVerticallyLeft(field, ri, fi), ...calculateVerticallyRight(field, ri, fi)]
+        return [calculateHorizontallyLeft(field, ri, fi), calculateHorizontallyRight(field, ri, fi), calculateVerticallyLeft(field, ri, fi), calculateVerticallyRight(field, ri, fi)]
     }
 
     const calculationForKnights = (field: string, ri: number, fi: number) => {
@@ -157,13 +157,13 @@ function calculateNextSteps(square: string[][], ri: number, fi: number, possible
     }
 
     return (() =>
-        /11./.test(field) ? calculationForWhitePawns(field, ri, fi) :
-        /21./.test(field) ? calculationForBlackPawns(field, ri, fi) :
-        /.2./.test(field) ? calculationForKnights(field, ri, fi) :
+        /11./.test(field) ? [calculationForWhitePawns(field, ri, fi)] :
+        /21./.test(field) ? [calculationForBlackPawns(field, ri, fi)] :
+        /.2./.test(field) ? [calculationForKnights(field, ri, fi)] :
         /.3./.test(field) ? calculationForDiagonally(field, ri, fi) :
         /.4./.test(field) ? calculationForStraight(field, ri, fi)   :
         /.5./.test(field) ? [...calculationForDiagonally(field, ri, fi), ...calculationForStraight(field, ri, fi)] :
-        /.6./.test(field) ? calculationForKing(field, ri, fi) :
+        /.6./.test(field) ? [calculationForKing(field, ri, fi)] :
         [])()
 }
 

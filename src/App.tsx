@@ -36,7 +36,7 @@ function App() {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).filter(step => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(check && !/.61/.test(field) ? getPossitionFigureWichCauseCheck() : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
