@@ -23,7 +23,7 @@ function ChessField(props: chessFieldProps)  {
             {props.square.map((rows, ri) =>
             <tr>{rows.map((field, fi) =>
                 <td className='TableData' onClick={event =>     !props.checkmate &&
-                                                                (props.check && ((props.isBlackNext && field === '261' || !props.isBlackNext && field === '161') || props.figuresWichCanMoveWhenCheck?.find(figure => figure === field)) // check if check === true and if a figure can beat the cause of check
+                                                                (props.check && (((props.isBlackNext && field === '261') || (!props.isBlackNext && field === '161')) || props.figuresWichCanMoveWhenCheck?.find(figure => figure === field)) // check if check === true and if a figure can beat the cause of check
                                                                 || props.possibleNextSteps?.some((possibleNextStep) => possibleNextStep[0] === ri && possibleNextStep[1] === fi)  // Check if current field is one of the next possible steps
                                                                 || (!props.check && props.selecting === true && (props.isBlackNext && /2../.test(field) || !props.isBlackNext && /1../.test(field))) // Check if player have to select a figur and check if black or white is next
                                                                 || props.selectedFigure === field) // Check if player want to unselect a figure
@@ -33,19 +33,19 @@ function ChessField(props: chessFieldProps)  {
                     }> 
                     {
                     // white
-                    /14./.test(field) ? <img src={whiteRooks} width="80" height="80" /> : 
-                    /12./.test(field) ? <img src={whiteKnights} width="80" height="80" /> : 
-                    /13./.test(field) ? <img src={whiteBishops} width="80" height="80" /> : 
-                    /16./.test(field) ? <img src={whiteKing} width="80" height="80" /> : 
-                    /15./.test(field) ? <img src={whiteQueen} width="80" height="80" /> : 
-                    /11./.test(field) ? <img src={whitePawns} width="80" height="80" /> : 
+                    /14./.test(field) ? <img src={whiteRooks} alt="W4" width="80" height="80" /> : 
+                    /12./.test(field) ? <img src={whiteKnights} alt="W2" width="80" height="80" /> : 
+                    /13./.test(field) ? <img src={whiteBishops} alt="W3" width="80" height="80" /> : 
+                    /16./.test(field) ? <img src={whiteKing} alt="W6" width="80" height="80" /> : 
+                    /15./.test(field) ? <img src={whiteQueen} alt="W5" width="80" height="80" /> : 
+                    /11./.test(field) ? <img src={whitePawns} alt="W1" width="80" height="80" /> : 
                     // black
-                    /24./.test(field) ? <img src={blackRooks} width="80" height="80" /> : 
-                    /22./.test(field) ? <img src={blackKnights} width="80" height="80" /> : 
-                    /23./.test(field) ? <img src={blackBishops} width="80" height="80" /> : 
-                    /26./.test(field) ? <img src={blackKing} width="80" height="80" /> : 
-                    /25./.test(field) ? <img src={blackQueen} width="80" height="80" /> : 
-                    /21./.test(field) && <img src={blackPawns} width="80" height="80" /> 
+                    /24./.test(field) ? <img src={blackRooks} alt="W4" width="80" height="80" /> : 
+                    /22./.test(field) ? <img src={blackKnights} alt="B2" width="80" height="80" /> : 
+                    /23./.test(field) ? <img src={blackBishops} alt="B3" width="80" height="80" /> : 
+                    /26./.test(field) ? <img src={blackKing} alt="B6" width="80" height="80" /> : 
+                    /25./.test(field) ? <img src={blackQueen} alt="B5" width="80" height="80" /> : 
+                    /21./.test(field) && <img src={blackPawns} alt="B1" width="80" height="80" /> 
                     } 
                     </td>)}
                 </tr>)}

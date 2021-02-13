@@ -27,11 +27,11 @@ function App() {
   
   useEffect(() => {
     setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures, setPathWichCauseCheck))
-  }, [isBlackNext])
+  }, [square, isBlackNext])
 
   useEffect(() => {
     setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures, pathWichCauseCheck, setFiguresWichCanMoveWhenCheck))
-  }, [check])
+  }, [check, figureWichCauseCheck, pathWichCauseCheck, possibleKingSteps, possibleNextEnemySteps, possibleNextStepsAllOwnFigures])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
