@@ -1,1 +1,1 @@
-Simply Chess with React. :D
+Simply Chess with React and maybe some bugs. :D
