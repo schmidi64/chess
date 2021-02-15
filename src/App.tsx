@@ -21,23 +21,23 @@ function App() {
   const [possibleKingSteps, setpossibleKingSteps] = useState<number[][]>()
   const [checkmate, setCheckmate] = useState<boolean>(false)
   const [check, setCheck] = useState<boolean>(false)
-  const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string | undefined>('')
+  const [figureWichCauseCheck, setFigureWichCauseCheck] = useState<string[] | undefined>()
   const [figuresWichCanMoveWhenCheck, setFiguresWichCanMoveWhenCheck] = useState<string[]>()
-  const [pathWichCauseCheck, setPathWichCauseCheck] = useState<number[][]>()
+  const [pathsWichCauseCheck, setPathsWichCauseCheck] = useState<(number[] | number[][])[][]>()
   
   useEffect(() => {
-    setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures, setPathWichCauseCheck))
+    setCheck(checkCheck(square, isBlackNext, setPossibleNextEnemySteps, setpossibleKingSteps, setFigureWichCauseCheck, setpossibleNextStepsAllOwnFigures, setPathsWichCauseCheck))
   }, [square, isBlackNext])
 
   useEffect(() => {
-    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, figureWichCauseCheck, possibleNextStepsAllOwnFigures, pathWichCauseCheck, setFiguresWichCanMoveWhenCheck))
-  }, [check, figureWichCauseCheck, pathWichCauseCheck, possibleKingSteps, possibleNextEnemySteps, possibleNextStepsAllOwnFigures])
+    setCheckmate(checkCheckmate(square, possibleNextEnemySteps, possibleKingSteps, check, possibleNextStepsAllOwnFigures, pathsWichCauseCheck, setFiguresWichCanMoveWhenCheck))
+  }, [check, figureWichCauseCheck, pathsWichCauseCheck, possibleKingSteps, possibleNextEnemySteps, possibleNextStepsAllOwnFigures])
 
   const handelClick = (field: string, ri: number, fi: number) => {
     if (selecting && field !== '0') {
       setSelectedFigure(field)
       setSelecting(false)
-      setPossibleNextSteps(check && !/.61/.test(field) ? reducePossibleStepsWhenCheck(pathWichCauseCheck, (calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))) : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))
+      setPossibleNextSteps(check && !/.61/.test(field) ? reducePossibleStepsWhenCheck(pathsWichCauseCheck, (calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))) : calculateNextSteps(square, ri, fi, possibleNextEnemySteps, false).flatMap(steps => steps).filter(step => step[0] !== undefined && step[1] !== undefined))
       setPreviousValue([ri, fi])
     } else if (!selecting && selectedFigure === field) {
       resetStates()
